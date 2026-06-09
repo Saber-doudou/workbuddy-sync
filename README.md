@@ -255,6 +255,7 @@ A: 检查以下几点：
 2. 微云目录 Key 是否正确
 3. 网络连接是否正常
 4. 微云存储空间是否充足
+5. 如果报错"需要 requests 库"，说明 Python 环境缺少 requests 包，执行 `pip install requests` 即可
 
 ### Q: 如何自定义备份内容？
 
@@ -292,6 +293,24 @@ A: 运行 `python sync_from_cloud.py`，按提示选择槽位即可。
 ## 📄 许可证
 
 本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件。
+
+## 📝 更新日志
+
+### v7.0.1 (2026-06-09)
+
+- **修复**：微云上传脚本 `requests` 库依赖问题
+  - 根因：`sys.executable` 指向 managed Python，该环境未安装 requests
+  - 教训：managed Python 和 venv 是两个独立环境，包不互通
+- **改进**：README 新增 requests 依赖说明
+
+### v7.0 (2026-05-21)
+
+- **模块化重构**：从 2691 行单文件拆分为 11 个模块（lib/）
+- **轻量指纹前置**：采集前先扫描文件 mtime/size，无变化秒级跳过
+- **微云失败感知**：微云上传失败 → PARTIAL 状态（不再虚报 SUCCESS）
+- **微云重试**：3 次指数退避重试（1s/2s/4s），仅网络错误触发
+- **urllib 统一**：移除 requests 依赖（微云上传模块），全栈使用标准库 urllib
+- **单元测试**：13 个测试覆盖指纹、memory 解析、包构建
 
 ## 🙏 致谢
 

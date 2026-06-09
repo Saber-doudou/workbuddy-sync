@@ -133,6 +133,9 @@ MAX_BINARY_FILE_SIZE = int(os.environ.get("MAX_BINARY_FILE_SIZE", str(10 * 1024 
 # 微云配置
 # ============================================================
 
+# 启用微云备份（需要配置连接器）
+ENABLE_WEIYUN = os.environ.get("ENABLE_WEIYUN", "false").lower() in ("true", "1", "yes")
+
 # 微云连接器目录
 WEIYUN_CONNECTOR_DIR = os.environ.get(
     "WEIYUN_CONNECTOR_DIR",
